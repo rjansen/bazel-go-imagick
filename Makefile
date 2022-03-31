@@ -8,11 +8,11 @@ docker-build:
 docker-run: docker-build
 	docker run --rm -d --name $(CONTAINER_NAME) -v $(shell pwd):/app $(IMAGE_NAME)
 
-docker-bash: docker-run
+docker-bash: docker-kill docker-run
 	docker exec -it $(CONTAINER_NAME) bash
 
 docker-kill: 
-	docker kill $(CONTAINER_NAME)
+	-docker kill $(CONTAINER_NAME)
 
 build:
 	go build -o $(NAME) main.go
