@@ -1,14 +1,21 @@
+NAME := bazel_go_imagick
+IMAGE_NAME ?= $(NAME)
+CONTAINER_NAME ?= $(NAME)
+
 docker-build:
-	docker build -t bazel_go_imagick .
+	docker build -t $(IMAGE_NAME) .
 
-docker-run:
-	docker run --rm -d --name bazel_go_imagick v $(pwd):/app bazel_go_imagick
+docker-run: docker-build
+	docker run --rm -d --name $(CONTAINER_NAME) -v $(shell pwd):/app $(IMAGE_NAME)
 
-docker-bash:
-	docker exec -it bazel_go_imagick bash
+docker-bash: docker-run
+	docker exec -it $(CONTAINER_NAME) bash
+
+docker-kill: 
+	docker kill $(CONTAINER_NAME)
 
 build:
-	go build -o bazel_go_imagick main.go
+	go build -o $(NAME) main.go
 
 build-static:
-	go build -ldflags="-extldflags=-static" -o bazel_go_imagick 
+	go build -ldflags="-extldflags=-static" -o $(NAME) 

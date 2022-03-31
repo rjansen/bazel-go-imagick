@@ -18,6 +18,8 @@ RUN cd && \
 	tar xvzf ${IMAGEMAGICK_VERSION}.tar.gz && \
 	cd ImageMagick* && \
 	./configure \
+        --disable-share \
+        --enable-static \
 	    --without-magick-plus-plus \
 	    --without-perl \
 	    --disable-openmp \
